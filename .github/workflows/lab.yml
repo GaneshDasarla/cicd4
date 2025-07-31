@@ -14,16 +14,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Workaround for deprecated upload-artifact v3
+        uses: actions/upload-artifact@v4
+
       - uses: actions/checkout@v4
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload static site
-        uses: actions/upload-pages-artifact@v2  # Fixed version
-
+        uses: actions/upload-pages-artifact@v2
         with:
-          path: '.'  # Folder with your site content
+          path: '.'
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2  # Fixed version
+        uses: actions/deploy-pages@v2
