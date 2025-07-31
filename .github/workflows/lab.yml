@@ -3,29 +3,27 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Change to your main branch name
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2  # Use v2 instead of v4 if you don't specifically need v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v2  # Fixed version
+
         with:
-          node-version: '14'
-
-      - name: Build and Deploy
-        run: |
-          npm install  # Replace with your build commands
-          npm run build  # Replace with your build commands
-          npm run deploy  # Replace with your deploy commands
+          path: '.'  # Folder with your site content
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1  # Example action for deploying to GitHub Pages
-        with:
-          branch: gh-pages  # Change to your GitHub Pages branch
-          folder: './build'  # Replace with the folder containing your built files
-          token: ${{ secrets.GITHUB_TOKEN }}  # Ensure this token has 'write: packages' permissions
+        uses: actions/deploy-pages@v2  # Fixed version
